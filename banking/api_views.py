@@ -1328,3 +1328,25 @@ class StaffAccountApplicationReviewAPIView(APIView):
             },
             status=status.HTTP_200_OK
         )
+
+
+# Public self-service registration is restricted to customer accounts.
+from rest_framework.permissions import AllowAny
+from rest_framework import serializers as drf_serializers
+from .serializers import CustomerRegistrationSerializer
+
+class CustomerRegistrationAPIView(APIView):
+    permission_classes = [AllowAny]
+    authentication_classes = []
+
+    def post(self, request):
+        serializer = CustomerRegistrationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        return Response(
+            {
+                "message": "Customer account created successfully. You can now sign in.",
+                "email": user.email,
+            },
+            status=status.HTTP_201_CREATED,
+        )
