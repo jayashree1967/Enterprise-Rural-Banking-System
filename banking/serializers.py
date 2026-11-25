@@ -866,6 +866,7 @@ class AccountApplicationReviewSerializer(serializers.Serializer):
 # Public customer registration. Staff/admin roles are never accepted from clients.
 from django.db import transaction as db_transaction
 from django.contrib.auth.password_validation import validate_password as django_validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 
 class CustomerRegistrationSerializer(serializers.Serializer):
     first_name = serializers.CharField(max_length=150)
@@ -898,7 +899,10 @@ class CustomerRegistrationSerializer(serializers.Serializer):
             first_name=attrs["first_name"],
             last_name=attrs["last_name"],
         )
-        django_validate_password(attrs["password"], candidate)
+        try:
+            django_validate_password(attrs["password"], candidate)
+        except DjangoValidationError as exc:
+            raise serializers.ValidationError({"password": list(exc.messages)})
         if attrs["date_of_birth"] >= __import__("datetime").date.today():
             raise serializers.ValidationError({"date_of_birth": "Date of birth must be in the past."})
         return attrs
