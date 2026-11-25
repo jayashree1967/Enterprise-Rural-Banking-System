@@ -119,6 +119,10 @@ function Login() {
 
         </form>
 
+        <div style={{ textAlign: "center", marginTop: "18px", fontSize: "14px" }}>
+          New to RuralBank? <a href="/register" style={{ color: "#0b9c8e", fontWeight: 600 }}>Create an account</a>
+        </div>
+
         <div className="login-security">
           <span>✓</span>
           Secure and protected banking access
