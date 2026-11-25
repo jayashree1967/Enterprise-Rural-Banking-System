@@ -873,7 +873,7 @@ class CustomerRegistrationSerializer(serializers.Serializer):
     last_name = serializers.CharField(max_length=150)
     email = serializers.EmailField(max_length=254)
     phone_number = serializers.RegexField(
-        regex=r"^\\+?[0-9]{10,15}$",
+        regex=r"^\+?[0-9]{10,15}$",
         max_length=15,
         error_messages={"invalid": "Enter a valid phone number (10 to 15 digits)."}
     )
