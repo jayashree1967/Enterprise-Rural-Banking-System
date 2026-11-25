@@ -12,6 +12,8 @@ function Register() {
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const navigate = useNavigate();
 
   const change = (event) => setForm((current) => ({
@@ -21,6 +23,10 @@ function Register() {
   const submit = async (event) => {
     event.preventDefault();
     setError("");
+    if (form.password !== form.confirm_password) {
+      setError("Passwords do not match. Please check both password fields.");
+      return;
+    }
     setLoading(true);
     try {
       await API.post("register/", form);
@@ -69,8 +75,27 @@ function Register() {
             <div className="login-field"><label htmlFor="state">State</label><input id="state" name="state" value={form.state} onChange={change} required /></div>
           </div>
           <div className="login-field"><label htmlFor="postal_code">Postal code</label><input id="postal_code" name="postal_code" value={form.postal_code} onChange={change} maxLength="10" required /></div>
-          <div className="login-field"><label htmlFor="password">Password</label><input id="password" name="password" type="password" value={form.password} onChange={change} autoComplete="new-password" required /></div>
-          <div className="login-field"><label htmlFor="confirm_password">Confirm password</label><input id="confirm_password" name="confirm_password" type="password" value={form.confirm_password} onChange={change} autoComplete="new-password" required /></div>
+          <div className="login-field">
+            <label htmlFor="password">Password</label>
+            <div className="password-wrapper">
+              <input id="password" name="password" type={showPassword ? "text" : "password"} value={form.password} onChange={change} autoComplete="new-password" minLength={12} required />
+              <button type="button" className="password-toggle" onClick={() => setShowPassword((visible) => !visible)} aria-label={showPassword ? "Hide password" : "Show password"}>{showPassword ? "Hide" : "Show"}</button>
+            </div>
+            <small style={{ color: "#64748b", fontSize: "12px" }}>Use at least 12 characters. Avoid your name, email address, and common passwords.</small>
+          </div>
+          <div className="login-field">
+            <label htmlFor="confirm_password">Confirm password</label>
+            <div className="password-wrapper">
+              <input id="confirm_password" name="confirm_password" type={showConfirmPassword ? "text" : "password"} value={form.confirm_password} onChange={change} autoComplete="new-password" minLength={12} required />
+              <button type="button" className="password-toggle" onClick={() => setShowConfirmPassword((visible) => !visible)} aria-label={showConfirmPassword ? "Hide confirmation password" : "Show confirmation password"}>{showConfirmPassword ? "Hide" : "Show"}</button>
+            </div>
+            {form.confirm_password && form.password !== form.confirm_password && (
+              <small role="alert" style={{ color: "#dc2626", fontSize: "12px" }}>Passwords do not match.</small>
+            )}
+            {form.confirm_password && form.password === form.confirm_password && (
+              <small role="status" style={{ color: "#15803d", fontSize: "12px" }}>Passwords match.</small>
+            )}
+          </div>
           <button type="submit" className="login-submit" disabled={loading}>{loading ? "Creating account..." : "Create Account"} {!loading && <span>→</span>}</button>
         </form>
         <div style={{ textAlign: "center", marginTop: "18px", fontSize: "14px" }}>
