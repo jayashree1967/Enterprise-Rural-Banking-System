@@ -61,7 +61,7 @@ function Register() {
             <div className="login-field"><label htmlFor="last_name">Last name</label><input id="last_name" name="last_name" value={form.last_name} onChange={change} autoComplete="family-name" required /></div>
           </div>
           <div className="login-field"><label htmlFor="email">Email address</label><input id="email" name="email" type="email" value={form.email} onChange={change} autoComplete="email" required /></div>
-          <div className="login-field"><label htmlFor="phone_number">Phone number</label><input id="phone_number" name="phone_number" type="tel" pattern="\\+?[0-9]{10,15}" value={form.phone_number} onChange={change} autoComplete="tel" required /></div>
+          <div className="login-field"><label htmlFor="phone_number">Phone number</label><input id="phone_number" name="phone_number" type="tel" pattern="\+?[0-9]{10,15}" value={form.phone_number} onChange={change} autoComplete="tel" required /></div>
           <div className="login-field"><label htmlFor="date_of_birth">Date of birth</label><input id="date_of_birth" name="date_of_birth" type="date" max={new Date().toISOString().slice(0, 10)} value={form.date_of_birth} onChange={change} required /></div>
           <div className="login-field"><label htmlFor="address">Address</label><textarea id="address" name="address" value={form.address} onChange={change} rows="2" required /></div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
