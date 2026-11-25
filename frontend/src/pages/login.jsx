@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -13,6 +13,7 @@ function Login() {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -61,6 +62,10 @@ function Login() {
             Sign in to access your secure banking dashboard.
           </p>
         </div>
+
+        {location.state?.registrationSuccess && (
+          <div className="login-success" role="status">{location.state.registrationSuccess}</div>
+        )}
 
         {error && (
           <div className="login-error">
@@ -118,6 +123,10 @@ function Login() {
           </button>
 
         </form>
+
+        <div style={{ textAlign: "center", marginTop: "18px", fontSize: "14px" }}>
+          New to RuralBank? <a href="/register" style={{ color: "#0b9c8e", fontWeight: 600 }}>Create an account</a>
+        </div>
 
         <div className="login-security">
           <span>✓</span>

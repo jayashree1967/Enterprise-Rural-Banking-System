@@ -12,6 +12,7 @@ import { AuthProvider, useAuth } from "./context/AuthContext";
 
 // Authentication
 import Login from "./pages/login";
+import Register from "./pages/Register";
 
 // Customer pages
 import Dashboard from "./pages/Dashboard";
@@ -123,11 +124,9 @@ function AppRoutes() {
 
       <Routes>
 
-        {/* Login */}
-        <Route
-          path="/login"
-          element={<Login />}
-        />
+        {/* Public authentication */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Customer Dashboard and Customer View */}
         <Route

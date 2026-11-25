@@ -195,3 +195,10 @@ urlpatterns = [
 ]
 
 
+
+
+# Public customer self-registration
+from .api_views import CustomerRegistrationAPIView
+urlpatterns += [
+    path("register/", CustomerRegistrationAPIView.as_view(), name="customer-register"),
+]
