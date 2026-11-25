@@ -1,0 +1,30 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.log
+venv/
+.venv/
+
+# Django user uploads and collected static files
+media/
+staticfiles/
+
+# Frontend dependencies/build output
+node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Uploaded loan documents
+loans/

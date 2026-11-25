@@ -1,0 +1,1188 @@
+openapi: 3.0.3
+info:
+  title: Enterprise Rural Banking System API
+  version: 1.0.0
+  description: API documentation for customer banking operations.
+paths:
+  /api/accounts/:
+    get:
+      operationId: accounts_list
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BankAccount'
+          description: ''
+  /api/accounts/{id}/:
+    get:
+      operationId: accounts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
+          description: ''
+  /api/beneficiaries/:
+    get:
+      operationId: beneficiaries_retrieve
+      tags:
+      - beneficiaries
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: beneficiaries_create
+      tags:
+      - beneficiaries
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/beneficiaries/{id}/:
+    delete:
+      operationId: beneficiaries_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - beneficiaries
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/change-password/:
+    post:
+      operationId: change_password_create
+      tags:
+      - change-password
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/complaints/:
+    get:
+      operationId: complaints_list
+      tags:
+      - complaints
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Complaint'
+          description: ''
+    post:
+      operationId: complaints_create
+      tags:
+      - complaints
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Complaint'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Complaint'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Complaint'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Complaint'
+          description: ''
+  /api/complaints/{id}/:
+    get:
+      operationId: complaints_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - complaints
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Complaint'
+          description: ''
+  /api/complaints/{id}/close/:
+    patch:
+      operationId: complaints_close_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - complaints
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/deposit/:
+    post:
+      operationId: deposit_create
+      tags:
+      - deposit
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/loans/:
+    get:
+      operationId: loans_list
+      tags:
+      - loans
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanApplication'
+          description: ''
+    post:
+      operationId: loans_create
+      tags:
+      - loans
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoanApplication'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoanApplication'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoanApplication'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanApplication'
+          description: ''
+  /api/loans/{id}/:
+    get:
+      operationId: loans_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - loans
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanApplication'
+          description: ''
+  /api/loans/{id}/documents/:
+    post:
+      operationId: loans_documents_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - loans
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoanDocumentUpload'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoanDocumentUpload'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoanDocument'
+          description: ''
+  /api/notifications/:
+    get:
+      operationId: notifications_list
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Notification'
+          description: ''
+  /api/notifications/{id}/read/:
+    patch:
+      operationId: notifications_read_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/profile/:
+    get:
+      operationId: profile_retrieve
+      tags:
+      - profile
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfile'
+          description: ''
+    put:
+      operationId: profile_update
+      tags:
+      - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CustomerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CustomerProfile'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfile'
+          description: ''
+    patch:
+      operationId: profile_partial_update
+      tags:
+      - profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerProfile'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerProfile'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCustomerProfile'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfile'
+          description: ''
+  /api/staff/complaints/:
+    get:
+      operationId: staff_complaints_list
+      tags:
+      - staff
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Complaint'
+          description: ''
+  /api/staff/complaints/{id}/:
+    patch:
+      operationId: staff_complaints_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - staff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffComplaintUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffComplaintUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffComplaintUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffComplaintUpdate'
+          description: ''
+  /api/staff/loans/:
+    get:
+      operationId: staff_loans_list
+      tags:
+      - staff
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LoanApplication'
+          description: ''
+  /api/staff/loans/{id}/review/:
+    patch:
+      operationId: staff_loans_review_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - staff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffLoanReview'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffLoanReview'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStaffLoanReview'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffLoanReview'
+          description: ''
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/transactions/:
+    get:
+      operationId: transactions_list
+      tags:
+      - transactions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+          description: ''
+  /api/transactions/statement/pdf/:
+    get:
+      operationId: transactions_statement_pdf_retrieve
+      tags:
+      - transactions
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/transfer/:
+    post:
+      operationId: transfer_create
+      tags:
+      - transfer
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/withdraw/:
+    post:
+      operationId: withdraw_create
+      tags:
+      - withdraw
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+components:
+  schemas:
+    AccountTypeEnum:
+      enum:
+      - SAVINGS
+      - CURRENT
+      type: string
+      description: |-
+        * `SAVINGS` - Savings
+        * `CURRENT` - Current
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        account_number:
+          type: string
+          readOnly: true
+        account_type:
+          allOf:
+          - $ref: '#/components/schemas/AccountTypeEnum'
+          readOnly: true
+        balance:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/BankAccountStatusEnum'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - account_number
+      - account_type
+      - balance
+      - created_at
+      - id
+      - status
+    BankAccountStatusEnum:
+      enum:
+      - ACTIVE
+      - INACTIVE
+      - FROZEN
+      type: string
+      description: |-
+        * `ACTIVE` - Active
+        * `INACTIVE` - Inactive
+        * `FROZEN` - Frozen
+    Complaint:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reference_number:
+          type: string
+          format: uuid
+          readOnly: true
+        category:
+          $ref: '#/components/schemas/ComplaintCategoryEnum'
+        category_display:
+          type: string
+          readOnly: true
+        subject:
+          type: string
+          maxLength: 150
+        description:
+          type: string
+        status:
+          allOf:
+          - $ref: '#/components/schemas/StatusEc2Enum'
+          readOnly: true
+        status_display:
+          type: string
+          readOnly: true
+        staff_reply:
+          type: string
+          readOnly: true
+        staff_email:
+          type: string
+          format: email
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        resolved_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        closed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+      required:
+      - category
+      - category_display
+      - closed_at
+      - created_at
+      - description
+      - id
+      - reference_number
+      - resolved_at
+      - staff_email
+      - staff_reply
+      - status
+      - status_display
+      - subject
+      - updated_at
+    ComplaintCategoryEnum:
+      enum:
+      - ACCOUNT
+      - TRANSACTION
+      - DEPOSIT
+      - WITHDRAWAL
+      - TRANSFER
+      - CARD
+      - SECURITY
+      - OTHER
+      type: string
+      description: |-
+        * `ACCOUNT` - Account Related
+        * `TRANSACTION` - Transaction Issue
+        * `DEPOSIT` - Deposit Issue
+        * `WITHDRAWAL` - Withdrawal Issue
+        * `TRANSFER` - Fund Transfer Issue
+        * `CARD` - Card Related
+        * `SECURITY` - Security Concern
+        * `OTHER` - Other
+    CustomerProfile:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          readOnly: true
+        phone_number:
+          type: string
+          maxLength: 15
+        date_of_birth:
+          type: string
+          format: date
+        address:
+          type: string
+        city:
+          type: string
+          maxLength: 100
+        state:
+          type: string
+          maxLength: 100
+        postal_code:
+          type: string
+          maxLength: 10
+      required:
+      - address
+      - city
+      - date_of_birth
+      - email
+      - first_name
+      - last_name
+      - postal_code
+      - state
+    DocumentTypeEnum:
+      enum:
+      - IDENTITY
+      - ADDRESS
+      - INCOME
+      - BANK_STATEMENT
+      - PROPERTY
+      - EDUCATION
+      - AGRICULTURE
+      - BUSINESS
+      - OTHER
+      type: string
+      description: |-
+        * `IDENTITY` - Identity Proof
+        * `ADDRESS` - Address Proof
+        * `INCOME` - Income Proof
+        * `BANK_STATEMENT` - Bank Statement
+        * `PROPERTY` - Property Document
+        * `EDUCATION` - Education Document
+        * `AGRICULTURE` - Agriculture Document
+        * `BUSINESS` - Business Document
+        * `OTHER` - Other
+    LoanApplication:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        reference_number:
+          type: string
+          format: uuid
+          readOnly: true
+        customer_email:
+          type: string
+          format: email
+          readOnly: true
+        category:
+          $ref: '#/components/schemas/LoanApplicationCategoryEnum'
+        category_display:
+          type: string
+          readOnly: true
+        requested_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        monthly_income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        existing_monthly_obligations:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+        tenure_months:
+          type: integer
+          maximum: 4294967295
+          minimum: 1
+          format: int64
+        purpose:
+          type: string
+        approved_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        annual_interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          readOnly: true
+          nullable: true
+        approved_tenure_months:
+          type: integer
+          readOnly: true
+          nullable: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/Status222Enum'
+          readOnly: true
+        status_display:
+          type: string
+          readOnly: true
+        staff_remarks:
+          type: string
+          readOnly: true
+        rejection_reason:
+          type: string
+          readOnly: true
+        assigned_staff:
+          type: integer
+          readOnly: true
+          nullable: true
+        reviewed_by:
+          type: integer
+          readOnly: true
+          nullable: true
+        reviewed_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/LoanDocument'
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - annual_interest_rate
+      - approved_amount
+      - approved_tenure_months
+      - assigned_staff
+      - category
+      - category_display
+      - created_at
+      - customer_email
+      - documents
+      - id
+      - monthly_income
+      - purpose
+      - reference_number
+      - rejection_reason
+      - requested_amount
+      - reviewed_at
+      - reviewed_by
+      - staff_remarks
+      - status
+      - status_display
+      - tenure_months
+      - updated_at
+    LoanApplicationCategoryEnum:
+      enum:
+      - PERSONAL
+      - HOME
+      - EDUCATION
+      - AGRICULTURE
+      - BUSINESS
+      type: string
+      description: |-
+        * `PERSONAL` - Personal Loan
+        * `HOME` - Home Loan
+        * `EDUCATION` - Education Loan
+        * `AGRICULTURE` - Agriculture Loan
+        * `BUSINESS` - Business Loan
+    LoanDocument:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        document_type:
+          $ref: '#/components/schemas/DocumentTypeEnum'
+        document_type_display:
+          type: string
+          readOnly: true
+        document_file:
+          type: string
+        uploaded_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - document_file
+      - document_type
+      - document_type_display
+      - id
+      - uploaded_at
+    LoanDocumentUpload:
+      type: object
+      properties:
+        document_type:
+          $ref: '#/components/schemas/DocumentTypeEnum'
+        document_file:
+          type: string
+          format: binary
+      required:
+      - document_file
+      - document_type
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          readOnly: true
+        message:
+          type: string
+          readOnly: true
+        notification_type:
+          allOf:
+          - $ref: '#/components/schemas/NotificationTypeEnum'
+          readOnly: true
+        transaction_reference:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+        is_read:
+          type: boolean
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - is_read
+      - message
+      - notification_type
+      - title
+      - transaction_reference
+    NotificationTypeEnum:
+      enum:
+      - DEPOSIT
+      - WITHDRAWAL
+      - TRANSFER
+      - GENERAL
+      type: string
+      description: |-
+        * `DEPOSIT` - Deposit
+        * `WITHDRAWAL` - Withdrawal
+        * `TRANSFER` - Transfer
+        * `GENERAL` - General
+    PatchedCustomerProfile:
+      type: object
+      properties:
+        first_name:
+          type: string
+          maxLength: 150
+        last_name:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          readOnly: true
+        phone_number:
+          type: string
+          maxLength: 15
+        date_of_birth:
+          type: string
+          format: date
+        address:
+          type: string
+        city:
+          type: string
+          maxLength: 100
+        state:
+          type: string
+          maxLength: 100
+        postal_code:
+          type: string
+          maxLength: 10
+    PatchedStaffComplaintUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEc2Enum'
+        staff_reply:
+          type: string
+    PatchedStaffLoanReview:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status222Enum'
+        approved_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+          nullable: true
+        annual_interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
+        approved_tenure_months:
+          type: integer
+          maximum: 4294967295
+          minimum: 1
+          format: int64
+          nullable: true
+        staff_remarks:
+          type: string
+        rejection_reason:
+          type: string
+    StaffComplaintUpdate:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/StatusEc2Enum'
+        staff_reply:
+          type: string
+    StaffLoanReview:
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/Status222Enum'
+        approved_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+          nullable: true
+        annual_interest_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
+        approved_tenure_months:
+          type: integer
+          maximum: 4294967295
+          minimum: 1
+          format: int64
+          nullable: true
+        staff_remarks:
+          type: string
+        rejection_reason:
+          type: string
+    Status222Enum:
+      enum:
+      - SUBMITTED
+      - UNDER_REVIEW
+      - APPROVED
+      - REJECTED
+      - CANCELLED
+      type: string
+      description: |-
+        * `SUBMITTED` - Submitted
+        * `UNDER_REVIEW` - Under Review
+        * `APPROVED` - Approved
+        * `REJECTED` - Rejected
+        * `CANCELLED` - Cancelled
+    StatusEc2Enum:
+      enum:
+      - OPEN
+      - IN_PROGRESS
+      - RESOLVED
+      - CLOSED
+      type: string
+      description: |-
+        * `OPEN` - Open
+        * `IN_PROGRESS` - In Progress
+        * `RESOLVED` - Resolved
+        * `CLOSED` - Closed
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        transaction_reference:
+          type: string
+          format: uuid
+          readOnly: true
+        transaction_type:
+          allOf:
+          - $ref: '#/components/schemas/TransactionTypeEnum'
+          readOnly: true
+        source_account:
+          type: integer
+          readOnly: true
+          nullable: true
+        destination_account:
+          type: integer
+          readOnly: true
+          nullable: true
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,13}(?:\.\d{0,2})?$
+          readOnly: true
+        status:
+          allOf:
+          - $ref: '#/components/schemas/TransactionStatusEnum'
+          readOnly: true
+        description:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - amount
+      - created_at
+      - description
+      - destination_account
+      - id
+      - source_account
+      - status
+      - transaction_reference
+      - transaction_type
+    TransactionStatusEnum:
+      enum:
+      - COMPLETED
+      - FAILED
+      type: string
+      description: |-
+        * `COMPLETED` - Completed
+        * `FAILED` - Failed
+    TransactionTypeEnum:
+      enum:
+      - DEPOSIT
+      - WITHDRAWAL
+      - TRANSFER
+      type: string
+      description: |-
+        * `DEPOSIT` - Deposit
+        * `WITHDRAWAL` - Withdrawal
+        * `TRANSFER` - Transfer
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
