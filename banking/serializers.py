@@ -861,3 +861,62 @@ class AccountApplicationReviewSerializer(serializers.Serializer):
             })
 
         return attrs
+
+
+# Public customer registration. Staff/admin roles are never accepted from clients.
+from django.db import transaction as db_transaction
+from django.contrib.auth.password_validation import validate_password as django_validate_password
+
+class CustomerRegistrationSerializer(serializers.Serializer):
+    first_name = serializers.CharField(max_length=150)
+    last_name = serializers.CharField(max_length=150)
+    email = serializers.EmailField(max_length=254)
+    phone_number = serializers.RegexField(
+        regex=r"^\\+?[0-9]{10,15}$",
+        max_length=15,
+        error_messages={"invalid": "Enter a valid phone number (10 to 15 digits)."}
+    )
+    date_of_birth = serializers.DateField()
+    address = serializers.CharField()
+    city = serializers.CharField(max_length=100)
+    state = serializers.CharField(max_length=100)
+    postal_code = serializers.CharField(max_length=10)
+    password = serializers.CharField(write_only=True, trim_whitespace=False)
+    confirm_password = serializers.CharField(write_only=True, trim_whitespace=False)
+
+    def validate_email(self, value):
+        value = value.strip().lower()
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("An account with this email already exists.")
+        return value
+
+    def validate(self, attrs):
+        if attrs["password"] != attrs["confirm_password"]:
+            raise serializers.ValidationError({"confirm_password": "Passwords do not match."})
+        candidate = User(
+            email=attrs["email"],
+            first_name=attrs["first_name"],
+            last_name=attrs["last_name"],
+        )
+        django_validate_password(attrs["password"], candidate)
+        if attrs["date_of_birth"] >= __import__("datetime").date.today():
+            raise serializers.ValidationError({"date_of_birth": "Date of birth must be in the past."})
+        return attrs
+
+    @db_transaction.atomic
+    def create(self, validated_data):
+        validated_data.pop("confirm_password")
+        password = validated_data.pop("password")
+        profile_fields = {
+            key: validated_data.pop(key)
+            for key in ("date_of_birth", "address", "city", "state", "postal_code")
+        }
+        user = User.objects.create_user(
+            email=validated_data.pop("email"),
+            password=password,
+            role=User.Role.CUSTOMER,
+            is_active=True,
+            **validated_data,
+        )
+        CustomerProfile.objects.create(user=user, **profile_fields)
+        return user
