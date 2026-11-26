@@ -171,6 +171,14 @@ When the backend is running, API documentation is available at:
 - Swagger UI: `http://127.0.0.1:8000/api/docs/`
 - ReDoc: `http://127.0.0.1:8000/api/redoc/`
 
+## Deployment
+
+The project has Railway deployment URLs:
+
+- **Frontend application:** [https://smartbanking.up.railway.app](https://smartbanking.up.railway.app)
+- **Backend API:** [https://enterprise-rural-banking-system-production.up.railway.app](https://enterprise-rural-banking-system-production.up.railway.app)
+- **API documentation:** [Swagger UI](https://enterprise-rural-banking-system-production.up.railway.app/api/docs/)
+
 ## Testing
 
 Run backend tests:
